@@ -1,12 +1,23 @@
-class CandyMachine{
+import {changeToCart} from "../variables";
+
+let shoppingListContainerBtn = null;
+shoppingListContainerBtn = document.querySelector(".shopping-list-box");
+let productLitContainer = null;
+const productTemplate = `<button type="button" class="fruit-item product-item btn btn-outline-dark d-flex flex-column align-items-center justify-content-between mb-3 col mx-3" data-name="__product_name__"  data-price="__product_price__">
+        <div class="d-flex flex-column align-items-center">
+          <img class="mr-2" src="__product_icon__" width="100" height="100" alt="Apple"/>
+          <span>__product_name__</span>
+        </div>
+        <strong>__product_price__ TL</strong>
+    </button>`;
+
+export class CandyMachine{
     constructor(dataObj){
         this.dataObj = dataObj
     }
 
     init(){
         productLitContainer = document.querySelector(".product-list-container");
-        shoppingListContainer = document.querySelector(".shopping-list-box");
-        totalAmountElement = document.querySelector(".total-amount");
         productLitContainer.innerHTML = this.dataObj.reduce((carry, product) => {
             return carry + productTemplate
             .replace(/__product_name__/g, product.name)
@@ -24,7 +35,7 @@ class CandyMachine{
             });
         });
 
-        shoppingListContainer.addEventListener('click', function (event) {
+        shoppingListContainerBtn.addEventListener('click', function (event) {
             const targetElement = event.target;
             if (targetElement.classList.contains('remove-btn')) {
                 changeToCart('', '', targetElement.dataset.name)
@@ -32,12 +43,3 @@ class CandyMachine{
         });
     }
 }
-
-const changeToCart = function (name, price, removeName) {
-    let action = new ProductChangeViewActivity(name, price, removeName);
-    action.controller();
-    action.totalAmount.totalAmountForProduct();
-}
-
-let runMachine = new CandyMachine(dataObj);
-runMachine.init();

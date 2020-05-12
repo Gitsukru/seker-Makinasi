@@ -1,4 +1,9 @@
-class ProductChangeViewActivity{
+import {CurrentDataActivites} from "./currentDataActivity";
+import {UpdateBasket} from "./totalAmountOfAddedProduct";
+import {selectedData} from "../variables";
+
+
+export class ProductChangeViewActivity{
     constructor(name, price, removeName){
         this.name = name;
         this.price = price;
