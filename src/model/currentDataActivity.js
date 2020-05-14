@@ -1,13 +1,14 @@
 import {selectedData} from "../variables";
 export class CurrentDataActivites{
-    constructor(name, price, removeName){
+    constructor(name, price, volume, removeName){
         this.name = name;
         this.price = price;
+        this.volume = volume;
         this.removeName = removeName;
     }
     
     newObj(){
-        let newObject = {name:this.name, price:this.price, totalPrice: this.price, quantity: 1};
+        let newObject = {name:this.name, price:this.price, totalPrice: this.price, totalVolume:this.volume, quantity: 1};
         return newObject;
     }
 
@@ -23,5 +24,6 @@ export class CurrentDataActivites{
         const foundProduct = selectedData.filter(item => item.name === this.newObj().name)[0];
         foundProduct.quantity += 1;
         foundProduct.totalPrice += this.price;
+        foundProduct.totalVolume += this.volume;
     }
 }

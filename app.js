@@ -1,11 +1,11 @@
 import './style.scss';
 import {CandyMachine} from "./src/model/candyMachine";
 
-let dataObj = [{
+let productData = [{
         name: "lokum",
         icon: "/img/lokum.png",
         price: 1.5,
-        volume: 8
+        volume: 20
     },
     {
         name: "akide",
@@ -34,5 +34,22 @@ let dataObj = [{
 ]
 
 
-let runMachine = new CandyMachine(dataObj);
+let packageData = [{
+    name: "Small",
+    price: 0.20,
+    volume: 100
+},
+{
+    name: "Medium",
+    price: 0.35,
+    volume: 300
+},
+{
+    name: "Large",
+    price: 0.70,
+    volume: 500
+}
+]
+
+let runMachine = new CandyMachine(productData);
 runMachine.init();

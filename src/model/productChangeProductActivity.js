@@ -2,13 +2,12 @@ import {CurrentDataActivites} from "./currentDataActivity";
 import {UpdateBasket} from "./totalAmountOfAddedProduct";
 import {selectedData} from "../variables";
 
-
 export class ProductChangeViewActivity{
-    constructor(name, price, removeName){
+    constructor(name, price, volume, removeName){
         this.name = name;
         this.price = price;
         this.removeName = removeName;
-        this.product = new CurrentDataActivites(name, price, removeName);
+        this.product = new CurrentDataActivites(name, price, volume, removeName);
         this.totalAmount = new UpdateBasket();
     }
     controller(){
@@ -25,5 +24,4 @@ export class ProductChangeViewActivity{
         // update product
         this.product.updateItem();
     }
-
 }
