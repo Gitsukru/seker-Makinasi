@@ -1,5 +1,5 @@
 import './style.scss';
-import {CandyMachine} from "./src/model/candyMachine";
+import {CandyMachine} from "./src/model/CandyMachine";
 
 let productData = [{
         name: "lokum",
@@ -34,4 +34,4 @@ let productData = [{
 ]
 
 let runMachine = new CandyMachine(productData);
-runMachine.init();
+runMachine;

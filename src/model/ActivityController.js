@@ -1,12 +1,12 @@
-import {CurrentDataActivites} from "./currentDataActivity";
+import {CurrentDataActivity} from "./CurrentDataActivity";
 import {selectedData} from "../variables";
 
-export class ProductChangeViewActivity{
+export class ActivityController{
     constructor(name, price, volume, removeName){
         this.name = name;
         this.price = price;
         this.removeName = removeName;
-        this.product = new CurrentDataActivites(name, price, volume, removeName);
+        this.product = new CurrentDataActivity(name, price, volume, removeName);
        
     }
     controller(){

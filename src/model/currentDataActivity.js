@@ -1,5 +1,5 @@
 import {selectedData} from "../variables";
-export class CurrentDataActivites{
+export class CurrentDataActivity{
     constructor(name, price, volume, removeName){
         this.name = name;
         this.price = price;

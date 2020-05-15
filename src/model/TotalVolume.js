@@ -7,7 +7,6 @@ export class TotalVolume {
     result(){
         let totalVolumeResult = this.data.reduce(function(cum, allTotalProductVolume){
             return cum + allTotalProductVolume.totalVolume;
-            
         },0);
         return totalVolumeResult;
     }

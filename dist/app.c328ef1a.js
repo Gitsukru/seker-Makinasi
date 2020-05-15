@@ -189,13 +189,13 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/model/currentDataActivity.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/model/CurrentDataActivity.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CurrentDataActivites = void 0;
+exports.CurrentDataActivity = void 0;
 
 var _variables = require("../variables");
 
@@ -205,9 +205,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var CurrentDataActivites = /*#__PURE__*/function () {
-  function CurrentDataActivites(name, price, volume, removeName) {
-    _classCallCheck(this, CurrentDataActivites);
+var CurrentDataActivity = /*#__PURE__*/function () {
+  function CurrentDataActivity(name, price, volume, removeName) {
+    _classCallCheck(this, CurrentDataActivity);
 
     this.name = name;
     this.price = price;
@@ -215,7 +215,7 @@ var CurrentDataActivites = /*#__PURE__*/function () {
     this.removeName = removeName;
   }
 
-  _createClass(CurrentDataActivites, [{
+  _createClass(CurrentDataActivity, [{
     key: "newObj",
     value: function newObj() {
       var newObject = {
@@ -256,19 +256,19 @@ var CurrentDataActivites = /*#__PURE__*/function () {
     }
   }]);
 
-  return CurrentDataActivites;
+  return CurrentDataActivity;
 }();
 
-exports.CurrentDataActivites = CurrentDataActivites;
-},{"../variables":"src/variables.js"}],"src/model/productChangeProductActivity.js":[function(require,module,exports) {
+exports.CurrentDataActivity = CurrentDataActivity;
+},{"../variables":"src/variables.js"}],"src/model/ActivityController.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ProductChangeViewActivity = void 0;
+exports.ActivityController = void 0;
 
-var _currentDataActivity = require("./currentDataActivity");
+var _CurrentDataActivity = require("./CurrentDataActivity");
 
 var _variables = require("../variables");
 
@@ -278,17 +278,17 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var ProductChangeViewActivity = /*#__PURE__*/function () {
-  function ProductChangeViewActivity(name, price, volume, removeName) {
-    _classCallCheck(this, ProductChangeViewActivity);
+var ActivityController = /*#__PURE__*/function () {
+  function ActivityController(name, price, volume, removeName) {
+    _classCallCheck(this, ActivityController);
 
     this.name = name;
     this.price = price;
     this.removeName = removeName;
-    this.product = new _currentDataActivity.CurrentDataActivites(name, price, volume, removeName);
+    this.product = new _CurrentDataActivity.CurrentDataActivity(name, price, volume, removeName);
   }
 
-  _createClass(ProductChangeViewActivity, [{
+  _createClass(ActivityController, [{
     key: "controller",
     value: function controller() {
       var _this = this;
@@ -312,11 +312,11 @@ var ProductChangeViewActivity = /*#__PURE__*/function () {
     }
   }]);
 
-  return ProductChangeViewActivity;
+  return ActivityController;
 }();
 
-exports.ProductChangeViewActivity = ProductChangeViewActivity;
-},{"./currentDataActivity":"src/model/currentDataActivity.js","../variables":"src/variables.js"}],"src/model/total-volume.js":[function(require,module,exports) {
+exports.ActivityController = ActivityController;
+},{"./CurrentDataActivity":"src/model/CurrentDataActivity.js","../variables":"src/variables.js"}],"src/model/TotalVolume.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -397,7 +397,7 @@ var UpdateAmount = /*#__PURE__*/function () {
 }();
 
 exports.UpdateAmount = UpdateAmount;
-},{"../variables":"src/variables.js"}],"src/model/packageCalculator.js":[function(require,module,exports) {
+},{"../variables":"src/variables.js"}],"src/model/PackageCalculator.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -491,18 +491,24 @@ exports.UpdateBasket = UpdateBasket;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeToCart = exports.currentPackageData = exports.selectedData = void 0;
+exports.changeToCart = exports.currentPackageData = exports.selectedData = exports.productTemplate = exports.productListContainer = exports.shoppingListContainerBtn = void 0;
 
-var _productChangeProductActivity = require("./model/productChangeProductActivity");
+var _ActivityController = require("./model/ActivityController");
 
-var _totalVolume = require("./model/total-volume");
+var _TotalVolume = require("./model/TotalVolume");
 
 var _UpdateAmount = require("./model/UpdateAmount");
 
-var _packageCalculator = require("./model/packageCalculator");
+var _PackageCalculator = require("./model/PackageCalculator");
 
 var _UpdateBasket = require("./model/UpdateBasket");
 
+var shoppingListContainerBtn = document.querySelector(".shopping-list-box");
+exports.shoppingListContainerBtn = shoppingListContainerBtn;
+var productListContainer = document.querySelector(".product-list-container");
+exports.productListContainer = productListContainer;
+var productTemplate = "<button type=\"button\" class=\"fruit-item product-item btn btn-outline-dark d-flex flex-column align-items-center justify-content-between mb-3 col mx-3\" \ndata-name=\"__product_name__\"  data-price=\"__product_price__\" data-volume=\"__product_volume__\">\n        <div class=\"d-flex flex-column align-items-center\">\n          <img class=\"mr-2\" src=\"__product_icon__\" width=\"100\" height=\"100\" alt=\"Apple\"/>\n          <span>__product_name__</span>\n        </div>\n        <strong>__product_price__ TL</strong>\n    </button>";
+exports.productTemplate = productTemplate;
 var selectedData = [];
 exports.selectedData = selectedData;
 var currentPackageData = null;
@@ -522,21 +528,21 @@ var packageData = [{
 }];
 
 var changeToCart = function changeToCart(name, price, pVolume, removeName) {
-  var action = new _productChangeProductActivity.ProductChangeViewActivity(name, price, pVolume, removeName);
+  var action = new _ActivityController.ActivityController(name, price, pVolume, removeName);
   action.controller();
-  var volume = new _totalVolume.TotalVolume(selectedData);
+  var volume = new _TotalVolume.TotalVolume(selectedData);
   var currentVolume = volume.result();
-  var packageCalc = new _packageCalculator.PackageCalculator();
+  var packageCalc = new _PackageCalculator.PackageCalculator();
   exports.currentPackageData = currentPackageData = packageCalc.calc(packageData, currentVolume);
   var amount = new _UpdateAmount.UpdateAmount();
   amount.total();
   var basket = new _UpdateBasket.UpdateBasket();
   basket.update();
-  console.log(packageCalc.calc(packageData, currentVolume));
+  console.log(currentVolume);
 };
 
 exports.changeToCart = changeToCart;
-},{"./model/productChangeProductActivity":"src/model/productChangeProductActivity.js","./model/total-volume":"src/model/total-volume.js","./model/UpdateAmount":"src/model/UpdateAmount.js","./model/packageCalculator":"src/model/packageCalculator.js","./model/UpdateBasket":"src/model/UpdateBasket.js"}],"src/model/candyMachine.js":[function(require,module,exports) {
+},{"./model/ActivityController":"src/model/ActivityController.js","./model/TotalVolume":"src/model/TotalVolume.js","./model/UpdateAmount":"src/model/UpdateAmount.js","./model/PackageCalculator":"src/model/PackageCalculator.js","./model/UpdateBasket":"src/model/UpdateBasket.js"}],"src/model/CandyMachine.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -552,26 +558,21 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var shoppingListContainerBtn = null;
-shoppingListContainerBtn = document.querySelector(".shopping-list-box");
-var productLitContainer = null;
-var productTemplate = "<button type=\"button\" class=\"fruit-item product-item btn btn-outline-dark d-flex flex-column align-items-center justify-content-between mb-3 col mx-3\" \ndata-name=\"__product_name__\"  data-price=\"__product_price__\" data-volume=\"__product_volume__\">\n        <div class=\"d-flex flex-column align-items-center\">\n          <img class=\"mr-2\" src=\"__product_icon__\" width=\"100\" height=\"100\" alt=\"Apple\"/>\n          <span>__product_name__</span>\n        </div>\n        <strong>__product_price__ TL</strong>\n    </button>";
-
 var CandyMachine = /*#__PURE__*/function () {
   function CandyMachine(dataObj) {
     _classCallCheck(this, CandyMachine);
 
     this.dataObj = dataObj;
+    this.init();
+    this.eventsRun();
   }
 
   _createClass(CandyMachine, [{
     key: "init",
     value: function init() {
-      productLitContainer = document.querySelector(".product-list-container");
-      productLitContainer.innerHTML = this.dataObj.reduce(function (carry, product) {
-        return carry + productTemplate.replace(/__product_name__/g, product.name).replace(/__product_price__/g, product.price).replace(/__product_icon__/g, product.icon).replace(/__product_volume__/g, product.volume);
+      _variables.productListContainer.innerHTML = this.dataObj.reduce(function (carry, product) {
+        return carry + _variables.productTemplate.replace(/__product_name__/g, product.name).replace(/__product_price__/g, product.price).replace(/__product_icon__/g, product.icon).replace(/__product_volume__/g, product.volume);
       }, '');
-      this.eventsRun();
     }
   }, {
     key: "eventsRun",
@@ -582,7 +583,8 @@ var CandyMachine = /*#__PURE__*/function () {
           (0, _variables.changeToCart)(data.name, parseFloat(data.price), parseFloat(data.volume));
         });
       });
-      shoppingListContainerBtn.addEventListener('click', function (event) {
+
+      _variables.shoppingListContainerBtn.addEventListener('click', function (event) {
         var targetElement = event.target;
 
         if (targetElement.classList.contains('remove-btn')) {
@@ -601,7 +603,7 @@ exports.CandyMachine = CandyMachine;
 
 require("./style.scss");
 
-var _candyMachine = require("./src/model/candyMachine");
+var _CandyMachine = require("./src/model/CandyMachine");
 
 var productData = [{
   name: "lokum",
@@ -629,9 +631,9 @@ var productData = [{
   price: 3,
   volume: 50
 }];
-var runMachine = new _candyMachine.CandyMachine(productData);
-runMachine.init();
-},{"./style.scss":"style.scss","./src/model/candyMachine":"src/model/candyMachine.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var runMachine = new _CandyMachine.CandyMachine(productData);
+runMachine;
+},{"./style.scss":"style.scss","./src/model/CandyMachine":"src/model/CandyMachine.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -659,7 +661,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57607" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50523" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
