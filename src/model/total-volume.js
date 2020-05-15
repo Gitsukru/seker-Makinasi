@@ -1,7 +1,11 @@
 
 export class TotalVolume {
-    result(data){
-        let totalVolumeResult = data.reduce(function(cum, allTotalProductVolume){
+    constructor(selectedData){
+        this.data = selectedData;
+        this.result();
+    }
+    result(){
+        let totalVolumeResult = this.data.reduce(function(cum, allTotalProductVolume){
             return cum + allTotalProductVolume.totalVolume;
             
         },0);

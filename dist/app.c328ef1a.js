@@ -260,60 +260,6 @@ var CurrentDataActivites = /*#__PURE__*/function () {
 }();
 
 exports.CurrentDataActivites = CurrentDataActivites;
-},{"../variables":"src/variables.js"}],"src/model/totalAmountOfAddedProduct.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.UpdateBasket = void 0;
-
-var _variables = require("../variables");
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var packagePriceBox = document.querySelector(".package-price");
-var payTotalBox = document.querySelector(".pay-total");
-var packageImgBox = document.querySelector(".package-img-box");
-var totalAmountElement = document.querySelector(".total-amount");
-var shoppingListContainer = document.querySelector(".shopping-list-box");
-var cartTemplate = "<li class=\"list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm\">\n        <button class=\"remove-btn\" data-name=\"__item_name__\"></button>\n        <div class=\"flex-1\">__item_name__</div>\n        <div class=\"d-flex flex-1 align-items-center text-center\">\n            <span class=\"mr-3\">__item_quantity__</span>\n            <span class=\"col-form-label mr-1\">adet</span>\n        </div>\n        <div class=\"flex-1 text-right\">__item_totalPrice__ TL</div>\n    </li>";
-var packageTemplate = " \n    <img class=\"package-img mb-2\" src=\"/img/__PACKAGENAME__-package.svg\">\n    <small>paket</small>";
-
-var UpdateBasket = /*#__PURE__*/function () {
-  function UpdateBasket() {
-    _classCallCheck(this, UpdateBasket);
-  }
-
-  _createClass(UpdateBasket, [{
-    key: "totalAmountForProduct",
-    value: function totalAmountForProduct() {
-      var selectedShoppingItems = _variables.selectedData.reduce(function (carry, item) {
-        carry.html += cartTemplate.replace(/__item_totalPrice__/g, item.totalPrice).replace(/__item_quantity__/g, item.quantity).replace(/__item_name__/g, item.name);
-        carry.totalPrice += item.totalPrice;
-        return carry;
-      }, {
-        html: '',
-        totalPrice: 0
-      });
-
-      shoppingListContainer.innerHTML = selectedShoppingItems.html;
-      totalAmountElement.innerHTML = selectedShoppingItems.totalPrice;
-      packagePriceBox.innerHTML = _variables.currentPackageData.price;
-      payTotalBox.innerHTML = selectedShoppingItems.totalPrice + _variables.currentPackageData.price;
-      var packageView = packageTemplate.replace(/__PACKAGENAME__/, _variables.currentPackageData.name);
-      packageImgBox.innerHTML = packageView;
-    }
-  }]);
-
-  return UpdateBasket;
-}();
-
-exports.UpdateBasket = UpdateBasket;
 },{"../variables":"src/variables.js"}],"src/model/productChangeProductActivity.js":[function(require,module,exports) {
 "use strict";
 
@@ -323,8 +269,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.ProductChangeViewActivity = void 0;
 
 var _currentDataActivity = require("./currentDataActivity");
-
-var _totalAmountOfAddedProduct = require("./totalAmountOfAddedProduct");
 
 var _variables = require("../variables");
 
@@ -342,7 +286,6 @@ var ProductChangeViewActivity = /*#__PURE__*/function () {
     this.price = price;
     this.removeName = removeName;
     this.product = new _currentDataActivity.CurrentDataActivites(name, price, volume, removeName);
-    this.totalAmount = new _totalAmountOfAddedProduct.UpdateBasket();
   }
 
   _createClass(ProductChangeViewActivity, [{
@@ -373,7 +316,7 @@ var ProductChangeViewActivity = /*#__PURE__*/function () {
 }();
 
 exports.ProductChangeViewActivity = ProductChangeViewActivity;
-},{"./currentDataActivity":"src/model/currentDataActivity.js","./totalAmountOfAddedProduct":"src/model/totalAmountOfAddedProduct.js","../variables":"src/variables.js"}],"src/model/total-volume.js":[function(require,module,exports) {
+},{"./currentDataActivity":"src/model/currentDataActivity.js","../variables":"src/variables.js"}],"src/model/total-volume.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -388,14 +331,17 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var TotalVolume = /*#__PURE__*/function () {
-  function TotalVolume() {
+  function TotalVolume(selectedData) {
     _classCallCheck(this, TotalVolume);
+
+    this.data = selectedData;
+    this.result();
   }
 
   _createClass(TotalVolume, [{
     key: "result",
-    value: function result(data) {
-      var totalVolumeResult = data.reduce(function (cum, allTotalProductVolume) {
+    value: function result() {
+      var totalVolumeResult = this.data.reduce(function (cum, allTotalProductVolume) {
         return cum + allTotalProductVolume.totalVolume;
       }, 0);
       return totalVolumeResult;
@@ -406,37 +352,191 @@ var TotalVolume = /*#__PURE__*/function () {
 }();
 
 exports.TotalVolume = TotalVolume;
-},{}],"src/variables.js":[function(require,module,exports) {
+},{}],"src/model/UpdateAmount.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.currentPackageData = exports.changeToCart = exports.selectedData = void 0;
+exports.UpdateAmount = void 0;
+
+var _variables = require("../variables");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var packagePriceBox = document.querySelector(".package-price");
+var payTotalBox = document.querySelector(".pay-total");
+var packageImgBox = document.querySelector(".package-img-box");
+var packageTemplate = " \n<img class=\"package-img mb-2\" src=\"/img/__PACKAGEIMG__-package.svg\">\n<small>__PACKAGENAME__</small>";
+
+var UpdateAmount = /*#__PURE__*/function () {
+  function UpdateAmount() {
+    _classCallCheck(this, UpdateAmount);
+  }
+
+  _createClass(UpdateAmount, [{
+    key: "total",
+    value: function total() {
+      var productTotalPay = _variables.selectedData.reduce(function (cum, item) {
+        cum += item.totalPrice;
+        return cum;
+      }, 0);
+
+      packagePriceBox.innerHTML = _variables.currentPackageData.price;
+      payTotalBox.innerHTML = productTotalPay + _variables.currentPackageData.price;
+      var packageView = packageTemplate.replace(/__PACKAGEIMG__/, _variables.currentPackageData.name).replace(/__PACKAGENAME__/, _variables.currentPackageData.name);
+      packageImgBox.innerHTML = packageView;
+    }
+  }]);
+
+  return UpdateAmount;
+}();
+
+exports.UpdateAmount = UpdateAmount;
+},{"../variables":"src/variables.js"}],"src/model/packageCalculator.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PackageCalculator = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var PackageCalculator = /*#__PURE__*/function () {
+  function PackageCalculator() {
+    _classCallCheck(this, PackageCalculator);
+  }
+
+  _createClass(PackageCalculator, [{
+    key: "calc",
+    value: function calc(packageData, currentVolume) {
+      for (var i = 0; i < packageData.length; i++) {
+        if (currentVolume < packageData[i].volume) {
+          return {
+            name: packageData[i - 1].name,
+            price: packageData[i - 1].price
+          };
+        }
+      }
+
+      return {
+        name: packageData[packageData.length - 1].name,
+        price: packageData[packageData.length - 1].price
+      };
+    }
+  }]);
+
+  return PackageCalculator;
+}();
+
+exports.PackageCalculator = PackageCalculator;
+},{}],"src/model/UpdateBasket.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UpdateBasket = void 0;
+
+var _variables = require("../variables");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var totalAmountElement = document.querySelector(".total-amount");
+var shoppingListContainer = document.querySelector(".shopping-list-box");
+var cartTemplate = "<li class=\"list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm\">\n        <button class=\"remove-btn\" data-name=\"__item_name__\"></button>\n        <div class=\"flex-1\">__item_name__</div>\n        <div class=\"d-flex flex-1 align-items-center text-center\">\n            <span class=\"mr-3\">__item_quantity__</span>\n            <span class=\"col-form-label mr-1\">adet</span>\n        </div>\n        <div class=\"flex-1 text-right\">__item_totalPrice__ TL</div>\n    </li>";
+
+var UpdateBasket = /*#__PURE__*/function () {
+  function UpdateBasket() {
+    _classCallCheck(this, UpdateBasket);
+  }
+
+  _createClass(UpdateBasket, [{
+    key: "update",
+    value: function update() {
+      var selectedShoppingItems = _variables.selectedData.reduce(function (carry, item) {
+        carry.html += cartTemplate.replace(/__item_totalPrice__/g, item.totalPrice).replace(/__item_quantity__/g, item.quantity).replace(/__item_name__/g, item.name);
+        carry.totalPrice += item.totalPrice;
+        return carry;
+      }, {
+        html: '',
+        totalPrice: 0
+      });
+
+      shoppingListContainer.innerHTML = selectedShoppingItems.html;
+      totalAmountElement.innerHTML = selectedShoppingItems.totalPrice;
+    }
+  }]);
+
+  return UpdateBasket;
+}();
+
+exports.UpdateBasket = UpdateBasket;
+},{"../variables":"src/variables.js"}],"src/variables.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.changeToCart = exports.currentPackageData = exports.selectedData = void 0;
 
 var _productChangeProductActivity = require("./model/productChangeProductActivity");
 
 var _totalVolume = require("./model/total-volume");
 
+var _UpdateAmount = require("./model/UpdateAmount");
+
+var _packageCalculator = require("./model/packageCalculator");
+
+var _UpdateBasket = require("./model/UpdateBasket");
+
 var selectedData = [];
 exports.selectedData = selectedData;
+var currentPackageData = null;
+exports.currentPackageData = currentPackageData;
+var packageData = [{
+  name: "Small",
+  price: 0.20,
+  volume: 0
+}, {
+  name: "Medium",
+  price: 0.35,
+  volume: 400
+}, {
+  name: "Large",
+  price: 0.70,
+  volume: 750
+}];
 
 var changeToCart = function changeToCart(name, price, pVolume, removeName) {
   var action = new _productChangeProductActivity.ProductChangeViewActivity(name, price, pVolume, removeName);
   action.controller();
-  action.totalAmount.totalAmountForProduct();
-  var volume = new _totalVolume.TotalVolume();
-  var totalVolume = volume.result(selectedData);
-  console.log(totalVolume);
+  var volume = new _totalVolume.TotalVolume(selectedData);
+  var currentVolume = volume.result();
+  var packageCalc = new _packageCalculator.PackageCalculator();
+  exports.currentPackageData = currentPackageData = packageCalc.calc(packageData, currentVolume);
+  var amount = new _UpdateAmount.UpdateAmount();
+  amount.total();
+  var basket = new _UpdateBasket.UpdateBasket();
+  basket.update();
+  console.log(packageCalc.calc(packageData, currentVolume));
 };
 
 exports.changeToCart = changeToCart;
-var currentPackageData = {
-  name: "Small",
-  price: 0.20
-};
-exports.currentPackageData = currentPackageData;
-},{"./model/productChangeProductActivity":"src/model/productChangeProductActivity.js","./model/total-volume":"src/model/total-volume.js"}],"src/model/candyMachine.js":[function(require,module,exports) {
+},{"./model/productChangeProductActivity":"src/model/productChangeProductActivity.js","./model/total-volume":"src/model/total-volume.js","./model/UpdateAmount":"src/model/UpdateAmount.js","./model/packageCalculator":"src/model/packageCalculator.js","./model/UpdateBasket":"src/model/UpdateBasket.js"}],"src/model/candyMachine.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -529,19 +629,6 @@ var productData = [{
   price: 3,
   volume: 50
 }];
-var packageData = [{
-  name: "Small",
-  price: 0.20,
-  volume: 100
-}, {
-  name: "Medium",
-  price: 0.35,
-  volume: 300
-}, {
-  name: "Large",
-  price: 0.70,
-  volume: 500
-}];
 var runMachine = new _candyMachine.CandyMachine(productData);
 runMachine.init();
 },{"./style.scss":"style.scss","./src/model/candyMachine":"src/model/candyMachine.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -572,7 +659,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58901" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57607" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

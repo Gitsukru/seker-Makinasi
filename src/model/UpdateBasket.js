@@ -1,8 +1,5 @@
-import {selectedData, currentPackageData} from "../variables";
+import {selectedData} from "../variables";
 
-let packagePriceBox = document.querySelector(".package-price");
-let payTotalBox = document.querySelector(".pay-total");
-let packageImgBox = document.querySelector(".package-img-box");
 let totalAmountElement = document.querySelector(".total-amount");
 let shoppingListContainer = document.querySelector(".shopping-list-box");
 const cartTemplate = `<li class="list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm">
@@ -15,15 +12,8 @@ const cartTemplate = `<li class="list-item px-1 mb-1 d-flex align-items-center j
         <div class="flex-1 text-right">__item_totalPrice__ TL</div>
     </li>`;
 
-
-const packageTemplate = ` 
-    <img class="package-img mb-2" src="/img/__PACKAGENAME__-package.svg">
-    <small>paket</small>`;
-
-
-
 export class UpdateBasket {
-    totalAmountForProduct() {
+    update() {
         const selectedShoppingItems = selectedData.reduce((carry, item) => {
             carry.html += cartTemplate
                 .replace(/__item_totalPrice__/g, item.totalPrice)
@@ -39,10 +29,5 @@ export class UpdateBasket {
 
         shoppingListContainer.innerHTML = selectedShoppingItems.html;
         totalAmountElement.innerHTML = selectedShoppingItems.totalPrice;
-        packagePriceBox.innerHTML = currentPackageData.price;
-        payTotalBox.innerHTML = selectedShoppingItems.totalPrice + currentPackageData.price;
-        let packageView = packageTemplate.replace(/__PACKAGENAME__/, currentPackageData.name);
-        
-        packageImgBox.innerHTML = packageView;
     }
 }

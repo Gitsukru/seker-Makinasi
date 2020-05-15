@@ -33,23 +33,5 @@ let productData = [{
     }
 ]
 
-
-let packageData = [{
-    name: "Small",
-    price: 0.20,
-    volume: 100
-},
-{
-    name: "Medium",
-    price: 0.35,
-    volume: 300
-},
-{
-    name: "Large",
-    price: 0.70,
-    volume: 500
-}
-]
-
 let runMachine = new CandyMachine(productData);
 runMachine.init();
