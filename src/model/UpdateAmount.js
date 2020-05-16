@@ -1,4 +1,4 @@
-import {selectedData, currentPackageData} from "../variables";
+import {selectedData} from "../variables";
 
 let packagePriceBox = document.querySelector(".package-price");
 let payTotalBox = document.querySelector(".pay-total");
@@ -10,15 +10,18 @@ const packageTemplate = `
 
 
 export class UpdateAmount {
+    constructor(currentPackageData){
+        this.currentPackageData = currentPackageData;
+    }
     total() {
         const productTotalPay = selectedData.reduce((cum, item) => {
             cum += item.totalPrice;
             return cum;
         }, 0);
-        packagePriceBox.innerHTML = currentPackageData.price;
-        payTotalBox.innerHTML = productTotalPay + currentPackageData.price;
-        let packageView = packageTemplate.replace(/__PACKAGEIMG__/, currentPackageData.name)
-        .replace(/__PACKAGENAME__/, currentPackageData.name) ;
+        packagePriceBox.innerHTML = this.currentPackageData.price;
+        payTotalBox.innerHTML = productTotalPay + this.currentPackageData.price;
+        let packageView = packageTemplate.replace(/__PACKAGEIMG__/, this.currentPackageData.name)
+        .replace(/__PACKAGENAME__/, this.currentPackageData.name) ;
         packageImgBox.innerHTML = packageView;
     }
 }

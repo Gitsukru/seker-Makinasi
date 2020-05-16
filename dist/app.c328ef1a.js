@@ -189,7 +189,57 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/model/CurrentDataActivity.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/variables.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.packageData = exports.productData = exports.selectedData = void 0;
+var selectedData = [];
+exports.selectedData = selectedData;
+var productData = [{
+  name: "Lokum",
+  icon: "/img/lokum.png",
+  price: 1.5,
+  volume: 20
+}, {
+  name: "Akide",
+  icon: "/img/akide.png",
+  price: 5,
+  volume: 26
+}, {
+  name: "Jelibon",
+  icon: "/img/jelibon.png",
+  price: 2.75,
+  volume: 45
+}, {
+  name: "Burgulu lolipop",
+  icon: "/img/b-lolipop.svg",
+  price: 2.5,
+  volume: 20
+}, {
+  name: "Yuvarlak lolipop",
+  icon: "/img/y-lollipop.png",
+  price: 3,
+  volume: 50
+}];
+exports.productData = productData;
+var packageData = [{
+  name: "Small",
+  price: 0.20,
+  volume: 0
+}, {
+  name: "Medium",
+  price: 0.35,
+  volume: 400
+}, {
+  name: "Large",
+  price: 0.70,
+  volume: 750
+}];
+exports.packageData = packageData;
+},{}],"src/model/CurrentDataActivity.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -374,8 +424,10 @@ var packageImgBox = document.querySelector(".package-img-box");
 var packageTemplate = " \n<img class=\"package-img mb-2\" src=\"/img/__PACKAGEIMG__-package.svg\">\n<small>__PACKAGENAME__</small>";
 
 var UpdateAmount = /*#__PURE__*/function () {
-  function UpdateAmount() {
+  function UpdateAmount(currentPackageData) {
     _classCallCheck(this, UpdateAmount);
+
+    this.currentPackageData = currentPackageData;
   }
 
   _createClass(UpdateAmount, [{
@@ -386,9 +438,9 @@ var UpdateAmount = /*#__PURE__*/function () {
         return cum;
       }, 0);
 
-      packagePriceBox.innerHTML = _variables.currentPackageData.price;
-      payTotalBox.innerHTML = productTotalPay + _variables.currentPackageData.price;
-      var packageView = packageTemplate.replace(/__PACKAGEIMG__/, _variables.currentPackageData.name).replace(/__PACKAGENAME__/, _variables.currentPackageData.name);
+      packagePriceBox.innerHTML = this.currentPackageData.price;
+      payTotalBox.innerHTML = productTotalPay + this.currentPackageData.price;
+      var packageView = packageTemplate.replace(/__PACKAGEIMG__/, this.currentPackageData.name).replace(/__PACKAGENAME__/, this.currentPackageData.name);
       packageImgBox.innerHTML = packageView;
     }
   }]);
@@ -412,25 +464,28 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var PackageCalculator = /*#__PURE__*/function () {
-  function PackageCalculator() {
+  function PackageCalculator(packageData, currentVolume) {
     _classCallCheck(this, PackageCalculator);
+
+    this.packageData = packageData;
+    this.currentVolume = currentVolume;
   }
 
   _createClass(PackageCalculator, [{
     key: "calc",
-    value: function calc(packageData, currentVolume) {
-      for (var i = 0; i < packageData.length; i++) {
-        if (currentVolume < packageData[i].volume) {
+    value: function calc() {
+      for (var i = 0; i < this.packageData.length; i++) {
+        if (this.currentVolume < this.packageData[i].volume) {
           return {
-            name: packageData[i - 1].name,
-            price: packageData[i - 1].price
+            name: this.packageData[i - 1].name,
+            price: this.packageData[i - 1].price
           };
         }
       }
 
       return {
-        name: packageData[packageData.length - 1].name,
-        price: packageData[packageData.length - 1].price
+        name: this.packageData[this.packageData.length - 1].name,
+        price: this.packageData[this.packageData.length - 1].price
       };
     }
   }]);
@@ -455,10 +510,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var totalAmountElement = document.querySelector(".total-amount");
-var shoppingListContainer = document.querySelector(".shopping-list-box");
-var cartTemplate = "<li class=\"list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm\">\n        <button class=\"remove-btn\" data-name=\"__item_name__\"></button>\n        <div class=\"flex-1\">__item_name__</div>\n        <div class=\"d-flex flex-1 justify-content-end align-items-center text-center\">\n            <span class=\"mr-3\">__item_quantity__</span>\n            <span class=\"col-form-label mr-1\">adet</span>\n        </div>\n        <div class=\"flex-1 text-right\">__item_totalPrice__ TL</div>\n    </li>";
-
 var UpdateBasket = /*#__PURE__*/function () {
   function UpdateBasket() {
     _classCallCheck(this, UpdateBasket);
@@ -467,6 +518,10 @@ var UpdateBasket = /*#__PURE__*/function () {
   _createClass(UpdateBasket, [{
     key: "update",
     value: function update() {
+      var totalAmountElement = document.querySelector(".total-amount");
+      var shoppingListContainer = document.querySelector(".shopping-list-box");
+      var cartTemplate = "<li class=\"list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm\">\n        <button class=\"remove-btn\" data-name=\"__item_name__\"></button>\n        <div class=\"flex-1\">__item_name__</div>\n        <div class=\"d-flex flex-1 justify-content-end align-items-center text-center\">\n            <span class=\"mr-3\">__item_quantity__</span>\n            <span class=\"col-form-label mr-1\">adet</span>\n        </div>\n        <div class=\"flex-1 text-right\">__item_totalPrice__ TL</div>\n        </li>";
+
       var selectedShoppingItems = _variables.selectedData.reduce(function (carry, item) {
         carry.html += cartTemplate.replace(/__item_totalPrice__/g, item.totalPrice).replace(/__item_quantity__/g, item.quantity).replace(/__item_name__/g, item.name);
         carry.totalPrice += item.totalPrice;
@@ -485,70 +540,23 @@ var UpdateBasket = /*#__PURE__*/function () {
 }();
 
 exports.UpdateBasket = UpdateBasket;
-},{"../variables":"src/variables.js"}],"src/variables.js":[function(require,module,exports) {
+},{"../variables":"src/variables.js"}],"src/model/ChangeToCart.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.changeToCart = exports.currentPackageData = exports.selectedData = exports.productTemplate = exports.productListContainer = exports.shoppingListContainerBtn = void 0;
+exports.ChangeToCart = void 0;
 
-var _ActivityController = require("./model/ActivityController");
+var _ActivityController = require("./ActivityController");
 
-var _TotalVolume = require("./model/TotalVolume");
+var _TotalVolume = require("./TotalVolume");
 
-var _UpdateAmount = require("./model/UpdateAmount");
+var _UpdateAmount = require("./UpdateAmount");
 
-var _PackageCalculator = require("./model/PackageCalculator");
+var _PackageCalculator = require("./PackageCalculator");
 
-var _UpdateBasket = require("./model/UpdateBasket");
-
-var shoppingListContainerBtn = document.querySelector(".shopping-list-box");
-exports.shoppingListContainerBtn = shoppingListContainerBtn;
-var productListContainer = document.querySelector(".product-list-container");
-exports.productListContainer = productListContainer;
-var productTemplate = "<button type=\"button\" class=\"fruit-item product-item btn btn-outline-dark d-flex flex-column align-items-center justify-content-between mb-3 col mx-3\" \ndata-name=\"__product_name__\"  data-price=\"__product_price__\" data-volume=\"__product_volume__\">\n        <div class=\"d-flex flex-column align-items-center\">\n          <img class=\"mr-2\" src=\"__product_icon__\" width=\"100\" height=\"100\" alt=\"Apple\"/>\n          <span>__product_name__</span>\n        </div>\n        <strong>__product_price__ TL</strong>\n    </button>";
-exports.productTemplate = productTemplate;
-var selectedData = [];
-exports.selectedData = selectedData;
-var currentPackageData = null;
-exports.currentPackageData = currentPackageData;
-var packageData = [{
-  name: "Small",
-  price: 0.20,
-  volume: 0
-}, {
-  name: "Medium",
-  price: 0.35,
-  volume: 400
-}, {
-  name: "Large",
-  price: 0.70,
-  volume: 750
-}];
-
-var changeToCart = function changeToCart(name, price, pVolume, removeName) {
-  var action = new _ActivityController.ActivityController(name, price, pVolume, removeName);
-  action.controller();
-  var volume = new _TotalVolume.TotalVolume(selectedData);
-  var currentVolume = volume.result();
-  var packageCalc = new _PackageCalculator.PackageCalculator();
-  exports.currentPackageData = currentPackageData = packageCalc.calc(packageData, currentVolume);
-  var amount = new _UpdateAmount.UpdateAmount();
-  amount.total();
-  var basket = new _UpdateBasket.UpdateBasket();
-  basket.update();
-  console.log(currentVolume);
-};
-
-exports.changeToCart = changeToCart;
-},{"./model/ActivityController":"src/model/ActivityController.js","./model/TotalVolume":"src/model/TotalVolume.js","./model/UpdateAmount":"src/model/UpdateAmount.js","./model/PackageCalculator":"src/model/PackageCalculator.js","./model/UpdateBasket":"src/model/UpdateBasket.js"}],"src/model/CandyMachine.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CandyMachine = void 0;
+var _UpdateBasket = require("./UpdateBasket");
 
 var _variables = require("../variables");
 
@@ -558,11 +566,57 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var ChangeToCart = /*#__PURE__*/function () {
+  function ChangeToCart(name, price, pVolume, removeName) {
+    _classCallCheck(this, ChangeToCart);
+
+    this.name = name;
+    this.price = price;
+    this.pVolume = pVolume;
+    this.removeName = removeName;
+  }
+
+  _createClass(ChangeToCart, [{
+    key: "runner",
+    value: function runner() {
+      var action = new _ActivityController.ActivityController(this.name, this.price, this.pVolume, this.removeName);
+      action.controller();
+      var basket = new _UpdateBasket.UpdateBasket();
+      basket.update();
+      var volume = new _TotalVolume.TotalVolume(_variables.selectedData);
+      var currentVolume = volume.result();
+      var packageCalc = new _PackageCalculator.PackageCalculator(_variables.packageData, currentVolume);
+      var amount = new _UpdateAmount.UpdateAmount(packageCalc.calc());
+      amount.total();
+      console.log(currentVolume);
+    }
+  }]);
+
+  return ChangeToCart;
+}();
+
+exports.ChangeToCart = ChangeToCart;
+},{"./ActivityController":"src/model/ActivityController.js","./TotalVolume":"src/model/TotalVolume.js","./UpdateAmount":"src/model/UpdateAmount.js","./PackageCalculator":"src/model/PackageCalculator.js","./UpdateBasket":"src/model/UpdateBasket.js","../variables":"src/variables.js"}],"src/model/CandyMachine.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CandyMachine = void 0;
+
+var _ChangeToCart = require("./ChangeToCart");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 var CandyMachine = /*#__PURE__*/function () {
-  function CandyMachine(dataObj) {
+  function CandyMachine(productData) {
     _classCallCheck(this, CandyMachine);
 
-    this.dataObj = dataObj;
+    this.productData = productData;
     this.init();
     this.eventsRun();
   }
@@ -570,25 +624,30 @@ var CandyMachine = /*#__PURE__*/function () {
   _createClass(CandyMachine, [{
     key: "init",
     value: function init() {
-      _variables.productListContainer.innerHTML = this.dataObj.reduce(function (carry, product) {
-        return carry + _variables.productTemplate.replace(/__product_name__/g, product.name).replace(/__product_price__/g, product.price).replace(/__product_icon__/g, product.icon).replace(/__product_volume__/g, product.volume);
+      var productTemplate = "\n        <button type=\"button\" class=\"fruit-item product-item btn btn-outline-dark d-flex flex-column align-items-center justify-content-between mb-3 col mx-3\" \n                data-name=\"__product_name__\"  data-price=\"__product_price__\" data-volume=\"__product_volume__\">\n        <div class=\"d-flex flex-column align-items-center\">\n                <img class=\"mr-2\" src=\"__product_icon__\" width=\"100\" height=\"100\" alt=\"Apple\"/>\n                <span>__product_name__</span>\n        </div>\n                <strong>__product_price__ TL</strong>\n        </button>";
+      var productListContainer = document.querySelector(".product-list-container");
+      productListContainer.innerHTML = this.productData.reduce(function (carry, product) {
+        return carry + productTemplate.replace(/__product_name__/g, product.name).replace(/__product_price__/g, product.price).replace(/__product_icon__/g, product.icon).replace(/__product_volume__/g, product.volume);
       }, '');
     }
   }, {
     key: "eventsRun",
     value: function eventsRun() {
-      document.querySelectorAll(".product-item").forEach(function (itemElement) {
+      var productItem = document.querySelectorAll(".product-item");
+      productItem.forEach(function (itemElement) {
         itemElement.addEventListener("click", function () {
           var data = this.dataset;
-          (0, _variables.changeToCart)(data.name, parseFloat(data.price), parseFloat(data.volume));
+          var changeCart = new _ChangeToCart.ChangeToCart(data.name, parseFloat(data.price), parseFloat(data.volume));
+          changeCart.runner();
         });
       });
-
-      _variables.shoppingListContainerBtn.addEventListener('click', function (event) {
+      var shoppingListContainerBtn = document.querySelector(".shopping-list-box");
+      shoppingListContainerBtn.addEventListener('click', function (event) {
         var targetElement = event.target;
 
         if (targetElement.classList.contains('remove-btn')) {
-          (0, _variables.changeToCart)('', '', '', targetElement.dataset.name);
+          var changeCart = new _ChangeToCart.ChangeToCart('', '', '', targetElement.dataset.name);
+          changeCart.runner();
         }
       });
     }
@@ -598,42 +657,18 @@ var CandyMachine = /*#__PURE__*/function () {
 }();
 
 exports.CandyMachine = CandyMachine;
-},{"../variables":"src/variables.js"}],"app.js":[function(require,module,exports) {
+},{"./ChangeToCart":"src/model/ChangeToCart.js"}],"app.js":[function(require,module,exports) {
 "use strict";
 
 require("./style.scss");
 
 var _CandyMachine = require("./src/model/CandyMachine");
 
-var productData = [{
-  name: "Lokum",
-  icon: "/img/lokum.png",
-  price: 1.5,
-  volume: 20
-}, {
-  name: "Akide",
-  icon: "/img/akide.png",
-  price: 5,
-  volume: 26
-}, {
-  name: "Jelibon",
-  icon: "/img/jelibon.png",
-  price: 2.75,
-  volume: 45
-}, {
-  name: "Burgulu lolipop",
-  icon: "/img/b-lolipop.svg",
-  price: 2.5,
-  volume: 20
-}, {
-  name: "Yuvarlak lolipop",
-  icon: "/img/y-lollipop.png",
-  price: 3,
-  volume: 50
-}];
-var runMachine = new _CandyMachine.CandyMachine(productData);
+var _variables = require("./src/variables");
+
+var runMachine = new _CandyMachine.CandyMachine(_variables.productData);
 runMachine;
-},{"./style.scss":"style.scss","./src/model/CandyMachine":"src/model/CandyMachine.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./style.scss":"style.scss","./src/model/CandyMachine":"src/model/CandyMachine.js","./src/variables":"src/variables.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -661,7 +696,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64074" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51937" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
