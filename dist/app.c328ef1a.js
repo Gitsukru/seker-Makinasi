@@ -457,7 +457,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var totalAmountElement = document.querySelector(".total-amount");
 var shoppingListContainer = document.querySelector(".shopping-list-box");
-var cartTemplate = "<li class=\"list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm\">\n        <button class=\"remove-btn\" data-name=\"__item_name__\"></button>\n        <div class=\"flex-1\">__item_name__</div>\n        <div class=\"d-flex flex-1 align-items-center text-center\">\n            <span class=\"mr-3\">__item_quantity__</span>\n            <span class=\"col-form-label mr-1\">adet</span>\n        </div>\n        <div class=\"flex-1 text-right\">__item_totalPrice__ TL</div>\n    </li>";
+var cartTemplate = "<li class=\"list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm\">\n        <button class=\"remove-btn\" data-name=\"__item_name__\"></button>\n        <div class=\"flex-1\">__item_name__</div>\n        <div class=\"d-flex flex-1 justify-content-end align-items-center text-center\">\n            <span class=\"mr-3\">__item_quantity__</span>\n            <span class=\"col-form-label mr-1\">adet</span>\n        </div>\n        <div class=\"flex-1 text-right\">__item_totalPrice__ TL</div>\n    </li>";
 
 var UpdateBasket = /*#__PURE__*/function () {
   function UpdateBasket() {
@@ -606,27 +606,27 @@ require("./style.scss");
 var _CandyMachine = require("./src/model/CandyMachine");
 
 var productData = [{
-  name: "lokum",
+  name: "Lokum",
   icon: "/img/lokum.png",
   price: 1.5,
   volume: 20
 }, {
-  name: "akide",
+  name: "Akide",
   icon: "/img/akide.png",
   price: 5,
   volume: 26
 }, {
-  name: "jelibon",
+  name: "Jelibon",
   icon: "/img/jelibon.png",
   price: 2.75,
   volume: 45
 }, {
-  name: "burgulu lolipop",
+  name: "Burgulu lolipop",
   icon: "/img/b-lolipop.svg",
   price: 2.5,
   volume: 20
 }, {
-  name: "yuvarlak lolipop",
+  name: "Yuvarlak lolipop",
   icon: "/img/y-lollipop.png",
   price: 3,
   volume: 50
@@ -661,7 +661,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50523" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63137" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -5,7 +5,7 @@ let shoppingListContainer = document.querySelector(".shopping-list-box");
 const cartTemplate = `<li class="list-item px-1 mb-1 d-flex align-items-center justify-content-between p-3 bg-white rounded shadow-sm">
         <button class="remove-btn" data-name="__item_name__"></button>
         <div class="flex-1">__item_name__</div>
-        <div class="d-flex flex-1 align-items-center text-center">
+        <div class="d-flex flex-1 justify-content-end align-items-center text-center">
             <span class="mr-3">__item_quantity__</span>
             <span class="col-form-label mr-1">adet</span>
         </div>

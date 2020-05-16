@@ -2,31 +2,31 @@ import './style.scss';
 import {CandyMachine} from "./src/model/CandyMachine";
 
 let productData = [{
-        name: "lokum",
+        name: "Lokum",
         icon: "/img/lokum.png",
         price: 1.5,
         volume: 20
     },
     {
-        name: "akide",
+        name: "Akide",
         icon: "/img/akide.png",
         price: 5,
         volume: 26
     },
     {
-        name: "jelibon",
+        name: "Jelibon",
         icon: "/img/jelibon.png",
         price: 2.75,
         volume: 45
     },
     {
-        name: "burgulu lolipop",
+        name: "Burgulu lolipop",
         icon: "/img/b-lolipop.svg",
         price: 2.5,
         volume: 20
     },
     {
-        name: "yuvarlak lolipop",
+        name: "Yuvarlak lolipop",
         icon: "/img/y-lollipop.png",
         price: 3,
         volume: 50
