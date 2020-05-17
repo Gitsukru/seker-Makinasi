@@ -421,7 +421,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var packagePriceBox = document.querySelector(".package-price");
 var payTotalBox = document.querySelector(".pay-total");
 var packageImgBox = document.querySelector(".package-img-box");
-var packageTemplate = " \n<img class=\"package-img mb-2\" src=\"/img/__PACKAGEIMG__-package.svg\">\n<small>__PACKAGENAME__</small>";
+var packageTemplate = " \n    <div class=\"d-flex flex-column text-center p-4\">\n        <img class=\"package-img mb-2\" src=\"/img/__PACKAGEIMG__-package.svg\">\n        <small>__PACKAGENAME__</small>\n    </div>";
 
 var UpdateAmount = /*#__PURE__*/function () {
   function UpdateAmount(currentPackageData) {
@@ -442,6 +442,12 @@ var UpdateAmount = /*#__PURE__*/function () {
       payTotalBox.innerHTML = productTotalPay + this.currentPackageData.price;
       var packageView = packageTemplate.replace(/__PACKAGEIMG__/, this.currentPackageData.name).replace(/__PACKAGENAME__/, this.currentPackageData.name);
       packageImgBox.innerHTML = packageView;
+
+      if (_variables.selectedData.length == 0) {
+        packagePriceBox.innerHTML = 0;
+        payTotalBox.innerHTML = 0;
+        packageImgBox.innerHTML = "";
+      }
     }
   }]);
 
@@ -696,7 +702,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51937" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64964" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

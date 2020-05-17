@@ -5,8 +5,10 @@ let payTotalBox = document.querySelector(".pay-total");
 let packageImgBox = document.querySelector(".package-img-box");
 
 const packageTemplate = ` 
-<img class="package-img mb-2" src="/img/__PACKAGEIMG__-package.svg">
-<small>__PACKAGENAME__</small>`;
+    <div class="d-flex flex-column text-center p-4">
+        <img class="package-img mb-2" src="/img/__PACKAGEIMG__-package.svg">
+        <small>__PACKAGENAME__</small>
+    </div>`;
 
 
 export class UpdateAmount {
@@ -23,5 +25,10 @@ export class UpdateAmount {
         let packageView = packageTemplate.replace(/__PACKAGEIMG__/, this.currentPackageData.name)
         .replace(/__PACKAGENAME__/, this.currentPackageData.name) ;
         packageImgBox.innerHTML = packageView;
+        if(selectedData.length == 0){
+            packagePriceBox.innerHTML = 0; 
+            payTotalBox.innerHTML = 0;
+            packageImgBox.innerHTML = "";
+        }
     }
 }
