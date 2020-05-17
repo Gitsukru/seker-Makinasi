@@ -1,25 +1,38 @@
-import {ActivityController} from "./model/ActivityController";
-import {TotalVolume} from "./model/TotalVolume";
-import {UpdateAmount} from "./model/UpdateAmount";
-import {PackageCalculator} from "./model/PackageCalculator";
-import {UpdateBasket} from "./model/UpdateBasket";
-
-export let shoppingListContainerBtn = document.querySelector(".shopping-list-box");
-export let productListContainer = document.querySelector(".product-list-container");
-export const productTemplate = `<button type="button" class="fruit-item product-item btn btn-outline-dark d-flex flex-column align-items-center justify-content-between mb-3 col mx-3" 
-data-name="__product_name__"  data-price="__product_price__" data-volume="__product_volume__">
-        <div class="d-flex flex-column align-items-center">
-          <img class="mr-2" src="__product_icon__" width="100" height="100" alt="Apple"/>
-          <span>__product_name__</span>
-        </div>
-        <strong>__product_price__ TL</strong>
-    </button>`;
-
-
 export let selectedData = [];
-export let currentPackageData = null;
 
-let packageData = [{
+export let productData = [{
+    name: "Lokum",
+    icon: "/img/lokum.png",
+    price: 1.5,
+    volume: 20
+},
+{
+    name: "Akide",
+    icon: "/img/akide.png",
+    price: 5,
+    volume: 26
+},
+{
+    name: "Jelibon",
+    icon: "/img/jelibon.png",
+    price: 2.75,
+    volume: 45
+},
+{
+    name: "Burgulu lolipop",
+    icon: "/img/b-lolipop.svg",
+    price: 2.5,
+    volume: 20
+},
+{
+    name: "Yuvarlak lolipop",
+    icon: "/img/y-lollipop.png",
+    price: 3,
+    volume: 50
+}
+]
+
+export let packageData = [{
     name: "Small",
     price: 0.20,
     volume: 0
@@ -36,22 +49,3 @@ let packageData = [{
 }
 ]
 
-export const changeToCart = function (name, price, pVolume, removeName) {
-
-    let action = new ActivityController(name, price, pVolume, removeName);
-    action.controller();
-
-    let volume = new TotalVolume(selectedData);
-    let currentVolume = volume.result();
-
-    let packageCalc = new PackageCalculator();
-    currentPackageData = packageCalc.calc(packageData, currentVolume);
-
-    let amount = new UpdateAmount();
-    amount.total();
-
-    
-    let basket = new UpdateBasket();
-    basket.update();
-    console.log(currentVolume);
-}
